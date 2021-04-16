@@ -1,0 +1,92 @@
+<div class="flex justify-center" id="cars">
+    <!-- RELEVANT MARKUP BEGINS HERE -->
+    <div class="container mh0 w-100">
+        <div class="container pa0 flex justify-center">
+            <div class="listings card-columns">
+                <% for (let i=0; i<data.length; i++) {%>
+
+<!--                card-->
+
+                <div class="card mv2" style="width: 18rem">
+                    <img src="/<%=data[i].image%>" class="card-img-top"
+                         alt="Image">
+                    <div class="card-body">
+                        <h5 class="card-title"><%=data[i].title%></h5>
+                        <p class="card-text"><%=data[i].description%>
+                        </p>
+                        <p class="card-text <%if (data[i].status) {%> text-success <%} else {%> text-danger <%}%>">Trạng thái: <%if (data[i].status) {%> Đang sử dụng <%} else {%> Không sử dụng <%}%>
+                        </p>
+                        <button data-toggle="modal" data-target="#u<%=data[i]._id%>" class="btn btn-info">Sửa</button>
+                        <button data-toggle="modal" data-target="#d<%=data[i]._id%>" class="btn btn-danger">Xóa</button>
+                    </div>
+                </div>
+
+<!--                modal delete-->
+
+                <div class="modal fade" id="d<%=data[i]._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận</h5>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có muốn xóa bài <%=data[i].title%> ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <a href="/introduces/delete-intro/<%=data[i]._id%>" class="btn btn-danger">Đồng ý</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<!--                modal update-->
+
+                <div class="modal fade" id="u<%=data[i]._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <form action="/introduces/update-intro/<%=data[i]._id%>" method="post" enctype="multipart/form-data" class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Sửa bài <%=data[i].title%> </h5>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Tiêu đề</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Nhập tiêu đề..." name="title" value="<%=data[i].title%>">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Mô tả</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Nhập mô tả..." name="description" value="<%=data[i].description%>">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Trạng thái</span>
+                                </div>
+                                <select type="" class="form-control" name="status">
+                                    <option <%if (data[i].status){%> selected <%}%> value="true">Sử dụng</option>
+                                    <option <%if (!data[i].status){%> selected <%}%> value="false">Không sử dụng</option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">Hình ảnh</span>
+                                </div>
+                                <input type="file" class="form-control" name="image">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-danger">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <%}%>
+            </div>
+        </div>
+    </div>
+</div>
+
+

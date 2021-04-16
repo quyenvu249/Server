@@ -1,0 +1,424 @@
+<div class="container" style="padding-top: 40px">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#login" aria-expanded="true"
+                            aria-controls="collapseOne">
+                        Đăng nhập: /api/login <a href="#"></a>
+                    </button>
+                </h5>
+            </div>
+
+            <div id="login" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">phoneNumber: String (Số điện thoại)</li>
+                        <li class="list-group-item">passWord: String (Mật khẩu)</li>
+                        <li class="list-group-item">tokenDevice: String (Token của thiết bị từ firebase)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                        <li class="list-group-item">token: String (token để add vào headers khi thực hiện các request)
+                        </li>
+                        <li class="list-group-item">data: Array (Dữ liệu)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#register"
+                            aria-expanded="false" aria-controls="collapseTwo">
+                        Đăng kí: /api/register
+                    </button>
+                </h5>
+            </div>
+            <div id="register" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">phoneNumber: String (Số điện thoại)</li>
+                        <li class="list-group-item">passWord: String (Mật khẩu)</li>
+                        <li class="list-group-item">fullName: String (Họ và tên)</li>
+                        <li class="list-group-item">address: String (Địa chỉ)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#getNews"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Lấy danh sách tin tức : /api/news
+                    </button>
+                </h5>
+            </div>
+            <div id="getNews" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: GET</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : Token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                        <li class="list-group-item">data: Array (Dữ liệu)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#getUser"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Lấy thông tin người dùng hiện tại : /api/user
+                    </button>
+                </h5>
+            </div>
+            <div id="getUser" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: GET</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : Token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                        <li class="list-group-item">data: Object (Dữ liệu)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#getScheduleUser"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Lấy lịch đặt người dùng hiện tại : /api/user/schedule
+                    </button>
+                </h5>
+            </div>
+            <div id="getScheduleUser" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: GET</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : Token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                        <li class="list-group-item">data: Object (Dữ liệu)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#updateUser"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Cập nhật thông tin người dùng hiện tại: /api/user/update
+                    </button>
+                </h5>
+            </div>
+            <div id="updateUser" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : Token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">fullName : String (Họ và tên)</li>
+                        <li class="list-group-item">address : String (Địa chỉ)</li>
+                        <li class="list-group-item">avatar : file (Hình ảnh)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#changePass"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Đổi mật khẩu người dùng hiện tại: /api/user/updatePass
+                    </button>
+                </h5>
+            </div>
+            <div id="changePass" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : Token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">currentPass : String (Mật khẩu hiện tại)</li>
+                        <li class="list-group-item">newPass : String (Mật khẩu mới)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#getVehicle"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Lấy danh sách xe (Dành cho khách) : /api/vehicles
+                    </button>
+                </h5>
+            </div>
+            <div id="getVehicle" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: GET</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                        <li class="list-group-item">data: Array (Danh sách xe)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#addVehicle"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Thêm mới xe (Dành cho khách) : /api/add-vehicle
+                    </button>
+                </h5>
+            </div>
+            <div id="addVehicle" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">name : String (Tên xe)</li>
+                        <li class="list-group-item">type : String (Loại xe)</li>
+                        <li class="list-group-item">license : String (Biển số)</li>
+                        <li class="list-group-item">color : String (Màu sắc)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#updateVehicle"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Sửa thông tin xe (Dành cho khách) : /api/vehicle/update/:id
+                    </button>
+                </h5>
+            </div>
+            <div id="updateVehicle" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Params:
+                        <li class="list-group-item">id : _id (_id của xe)</li>
+                    </ul>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">name : String (Tên xe)</li>
+                        <li class="list-group-item">type : String (Loại xe)</li>
+                        <li class="list-group-item">license : String (Biển số)</li>
+                        <li class="list-group-item">color : String (Màu sắc)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#deleteVehicle"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Xóa xe (Dành cho khách) : /api/vehicle/delete/:id
+                    </button>
+                </h5>
+            </div>
+            <div id="deleteVehicle" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: GET</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Params:
+                        <li class="list-group-item">id : _id (_id của xe)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#schedule"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Đặt lịch : /api/book
+                    </button>
+                </h5>
+            </div>
+            <div id="schedule" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">timeBook : Format dạng H:mm @ d/m (H: giờ 0 đến 23, mm: phút 00 đến
+                            59, d: ngày 0 đến 31, m: tháng 0 đến 12)
+                        </li>
+                        <li class="list-group-item">vehicle: String (Id của xe)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#schedules"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Lấy danh sách lịch : /api/schedules
+                    </button>
+                </h5>
+            </div>
+            <div id="schedules" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: GET</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Yêu cầu:
+                        <li class="list-group-item">Phải là nhân viên hoặc Admin</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                        <li class="list-group-item">data: Array (Dữ liệu)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#cancelSchedule"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Hủy lịch : /api/schedule/:id/cancel
+                    </button>
+                </h5>
+            </div>
+            <div id="cancelSchedule" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Params:
+                        <li class="list-group-item">id: String (id của lịch đặt)</li>
+                    </ul>
+                    <ul class="list-group-item"> Field:
+                        <li class="list-group-item">note: String (Lý do hủy lịch)</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#confirmSchedule"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Confirm lịch : /api/schedule/:id/confirm
+                    </button>
+                </h5>
+            </div>
+            <div id="confirmSchedule" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Params:
+                        <li class="list-group-item">id: String (id của lịch đặt)</li>
+                    </ul>
+                    <ul class="list-group-item"> Yêu cầu:
+                        <li class="list-group-item">Phải là nhân viên hoặc Admin</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#completeSchedule"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        Complete lịch : /api/schedule/:id/complete
+                    </button>
+                </h5>
+            </div>
+            <div id="completeSchedule" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <p>Method: POST</p>
+                    <ul class="list-group-item"> Headers:
+                        <li class="list-group-item">Authorization : token (Token gửi về khi login)</li>
+                    </ul>
+                    <ul class="list-group-item"> Params:
+                        <li class="list-group-item">id: String (id của lịch đặt)</li>
+                    </ul>
+                    <ul class="list-group-item"> Yêu cầu:
+                        <li class="list-group-item">Phải là người confirm</li>
+                    </ul>
+                    <ul class="list-group-item"> Response:
+                        <li class="list-group-item">success: Boolean (Trạng thái)</li>
+                        <li class="list-group-item">message: String (Thông báo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

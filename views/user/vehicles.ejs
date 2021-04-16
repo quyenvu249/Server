@@ -1,0 +1,108 @@
+<div class="container">
+    <h4><%= title %></h4>
+    <table class="table">
+        <thead>
+        <th>Tên xe</th>
+        <th>Loại xe</th>
+        <th>Biển số</th>
+        <th>Màu sắc</th>
+        </thead>
+        <% for (let i = 0; i < data.length; i++){ %>
+            <tbody>
+            <tr>
+                <td><%= data[i].name %></td>
+                <td><%= data[i].type %></td>
+                <td><%= data[i].license %></td>
+                <td><%= data[i].color %></td>
+                <td>
+                    &nbsp;
+                    <button type="button" data-toggle="modal" data-target="#d<%= data[i]._id %>"
+                            class="btn btn-danger btn-sm">Xóa
+                    </button>
+                    &nbsp;
+                    <button type="button" data-toggle="modal" data-target="#u<%= data[i]._id %>"
+                            class="btn btn-sm btn-info">Sửa
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <!--                modal delete-->
+
+            <div class="modal fade" id="d<%= data[i]._id %>" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận</h5>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa xe <%= data[i].name %> ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <a href="/users/vehicle/<%= data[i]._id %>/delete" class="btn btn-danger">Đồng ý</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--                modal update-->
+
+
+            <div class="modal fade" id="u<%= data[i]._id %>" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Sửa thông tin
+                                xe <%= data[i].name %></h5>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/users/vehicle/<%= data[i]._id %>/update" method="post" class="modal-content">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Tên xe</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nhập tên xe..." name="name"
+                                           value="<%= data[i].name %>">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Dạng xe</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nhập dạng xe..." name="type"
+                                           value="<%= data[i].type %>">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Hãng xe</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Hãng..." name="brand"
+                                           value="<%= data[i].brand %>">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Biển số</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nhập biển số..." name="license"
+                                           value="<%= data[i].license %>">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Màu xe</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nhập màu xe..." name="color"
+                                           value="<%= data[i].color %>">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <button type="submit" class="btn btn-danger">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </table>
+</div>

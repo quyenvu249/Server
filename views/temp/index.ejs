@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="/stylesheets/style.css" rel="stylesheet">
+    <title><%= title %></title>
+</head>
+<body class="c-app">
+<div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+    <div class="c-sidebar-brand d-lg-down-none">
+        <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+        </svg>
+        <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
+            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-animal"></use>
+        </svg>
+    </div>
+    <ul class="c-sidebar-nav">
+
+        <!--        Người dùng-->
+
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-group"></use>
+                </svg>
+                Người dùng</a>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="/users/customer">
+                        <span class="c-sidebar-nav-icon"></span>
+                        Khách hàng
+                    </a>
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="/users/staff">
+                        <span class="c-sidebar-nav-icon"></span>
+                        Nhân viên
+                    </a>
+                </li>
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="/users/add-user">
+                        <span class="c-sidebar-nav-icon"></span>
+                        Thêm nhân viên
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!--        Bảng tin-->
+
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
+                    class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-newspaper"></use>
+                </svg>
+                Bảng tin</a>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/introduces/add-intro"><span
+                                class="c-sidebar-nav-icon"></span>Thêm tin</a></li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/introduces/using"><span
+                                class="c-sidebar-nav-icon"></span>
+                        Những tin đang sử dụng</a></li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/introduces/not-use"><span
+                                class="c-sidebar-nav-icon"></span>Những tin không sử dụng</a></li>
+            </ul>
+        </li>
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
+                    class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-newspaper"></use>
+                </svg>
+                Lịch đặt</a>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/schedules?status=Pending"><span
+                                class="c-sidebar-nav-icon"></span>Lịch đang chờ</a></li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/schedules?status=Confirmed"><span
+                                class="c-sidebar-nav-icon"></span>Lịch đang thực hiện</a></li>
+
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/schedules?status=Completed"><span
+                                class="c-sidebar-nav-icon"></span>Lịch đã hoàn thành</a></li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/schedules?status=Cancelled"><span
+                                class="c-sidebar-nav-icon"></span>Lịch đã hủy</a></li>
+            </ul>
+        </li>
+
+
+    </ul>
+    <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent"
+            data-class="c-sidebar-minimized"></button>
+</div>
+<div class="c-wrapper c-fixed-components">
+    <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+        <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar"
+                data-class="c-sidebar-show">
+            <svg class="c-icon c-icon-lg">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+            </svg>
+        </button>
+        <a class="c-header-brand d-lg-none" href="#">
+            <svg width="118" height="46" alt="CoreUI Logo">
+                <use xlink:href="/assets/brand/coreui.svg#full"></use>
+            </svg>
+        </a>
+        <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar"
+                data-class="c-sidebar-lg-show" responsive="true">
+            <svg class="c-icon c-icon-lg">
+                <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+            </svg>
+        </button>
+        <ul class="c-header-nav d-md-down-none">
+            <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/users">Người dùng</a></li>
+            <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/introduces">Bảng tin</a></li>
+            <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/schedules">Lịch đặt</a></li>
+        </ul>
+        <ul class="c-header-nav ml-auto mr-4">
+            <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#"
+                                                      role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="c-avatar"><img class="c-avatar-img" src="/<%=img%>" alt="Admin"></div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right pt-0">
+                    <div class="dropdown-header bg-light py-2"><strong>Tài khoản</strong></div>
+                    <a class="dropdown-item" href="/logOut">
+                        <svg class="c-icon mr-2">
+                            <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                        </svg>
+                        Đăng xuất
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </header>
+    <div class="c-body">
+        <main class="c-main">
+            <div class="container-fluid">
+                <%- body %>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+</body>
+</html>

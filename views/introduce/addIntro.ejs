@@ -1,0 +1,18 @@
+
+<form class="container" action="/introduces/save-add-intro" method="post" enctype="multipart/form-data">
+    <h1><%=title%></h1>
+    <div class="form-group">
+        <label>Tiêu đề</label>
+        <input type="text" class="form-control "  placeholder="Nhập tiêu đề..." name="title" required>
+    </div>
+
+    <div class="form-group">
+        <label>Mô tả</label>
+        <input type="text" class="form-control"  placeholder="Nhập mô tả..." name="description" required>
+    </div>
+    <div class="form-group">
+        <label>Hình ảnh</label>
+        <input type="file" class="form-control"  name="image" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Thêm tin</button>
+</form>

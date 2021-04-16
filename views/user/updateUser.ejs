@@ -1,0 +1,35 @@
+
+<form class="container" action="/users/update-user/<%=data._id%>" method="post" enctype="multipart/form-data">
+    <h1><%=title%></h1>
+    <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="text" class="form-control "  placeholder="Nhập số điện thoại..." name="phoneNumber" required value="<%=data.phoneNumber%>">
+    </div>
+
+    <div class="form-group">
+        <label>Họ và tên</label>
+        <input type="text" class="form-control"  placeholder="Nhập họ và tên..." name="fullName" required value="<%=data.fullName%>">
+    </div>
+    <div class="form-group">
+        <label>Đia chỉ</label>
+        <input type="text" class="form-control"  placeholder="Nhập họ và tên..." name="address" required value="<%=data.address%>">
+    </div>
+    <div class="form-group">
+        <label>Dạng</label>
+        <select class="form-control" name="role" >
+            <option value="Customer" <%if (data.role == "Customer") {%> selected <%}%> > Khách hàng </option>
+            <option value="Staff" <%if (data.role == "Staff") {%> selected <%}%> > Nhân viên </option>
+            <option value="Admin" <%if (data.role == "Admin") {%> selected <%}%> > Quản lý </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Ảnh</label>
+        <input type="file" class="form-control" name="avatar"/>
+    </div>
+    <% if (err) {%>
+    <div class="alert alert-danger" role="alert">
+        <%=message%>
+    </div>
+    <%}%>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>

@@ -1,0 +1,119 @@
+<div class="card-columns">
+    <% for(let i = 0; i < data.length; i++){ %>
+    <div class="card ">
+        <div class="card-body">
+            <h5 class="card-title">Khách hàng: <%= data[i].idUser.fullName %></h5>
+            <p class="card-text">Xe đặt: <%= data[i].vehicle.name %> </p>
+            <p class="card-text">Thời gian đặt: <%= data[i].timeBook.split('@')[0]%> Ngày <%= data[i].timeBook.split('@')[1].split('/')[0]%> tháng <%= data[i].timeBook.split('@')[1].split('/')[1]%>   </p>
+            <li style="list-style: none">Dịch vụ đặt:  %>
+            <ul>
+                <% for (let j= 0; j< data[i].services.length; j++){%>
+                    <li><%=data[i].services[j].name%></li>
+                <%}%>
+            </ul></li>
+
+            <% if (data[i].status == "Pending") { %>
+                <p class="card-text text-warning">Trạng thái: Đang chờ </p>
+                <button data-toggle="modal" data-target="#pen<%=data[i]._id%>" class="btn btn-info">Xác nhận</button>
+                <button data-toggle="modal" data-target="#cancelPen<%=data[i]._id%>" class="btn btn-danger">Hủy</button>
+            <% } else if (data[i].status == "Confirmed"){ %>
+                <p class="card-text text-info">Trạng thái: Đang thực hiện </p>
+                <button data-toggle="modal" data-target="#con<%=data[i]._id%>" href="#" class="btn btn-info">Xác nhận đã hoàn thành</button>
+            <% } else if (data[i].status == "Completed"){ %>
+                <p class="card-text text-success">Trạng thái: Đã hoàn thành </p>
+                <button data-toggle="modal" data-target="#detail<%=data[i]._id%>" class="btn btn-info">Xem chi tiết</button>
+            <% } else if (data[i].status == "Cancelled"){ %>
+                <p class="card-text text-danger">Trạng thái: Đã hủy </p>
+                <button data-toggle="modal" data-target="#detail<%=data[i]._id%>" class="btn btn-info">Xem chi tiết</button>
+            <% } %>
+        </div>
+    </div>
+
+<!--    modal pending-->
+        <div class="modal fade" id="pen<%=data[i]._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận</h5>
+                    </div>
+                    <div class="modal-body">
+                       Bạn có muốn xác nhận lịch đặt <%=data[i].title%> ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <form action="/schedules/confirm?id=<%=data[i]._id%>&perform=Confirm" method="post">
+                            <button type="submit" class="btn btn-danger">Đồng ý</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--    modal cancel pending-->
+        <div class="modal fade" id="cancelPen<%=data[i]._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận</h5>
+                    </div>
+                    <form action="/schedules/confirm?id=<%=data[i]._id%>&perform=Cancel" method="post">
+                    <div class="modal-body">
+                        Bạn có muốn hủy lịch đặt <%=data[i].title%> ?
+                    </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Lý do</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Nhập lý do..." name="note" required>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+
+                            <button type="submit" class="btn btn-danger">Đồng ý</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+<!--    modal complete-->
+        <div class="modal fade" id="con<%=data[i]._id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận</h5>
+                    </div>
+                    <div class="modal-body">
+                        Đã hoành thành việc rửa xe?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <form action="/schedules/confirm?id=<%=data[i]._id%>&perform=Complete" method="post">
+                            <button type="submit" class="btn btn-danger">Đã hoàn thành</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--    modal detail complete-->
+        <div class="modal fade" id="detail<%=data[i]._id%>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <p>ID: <%=data[i]._id%></p>
+                    <p>Tên khách hàng: <%=data[i].idUser.fullName%></p>
+                    <p>Xe: <%=data[i].vehicle.name%></p>
+                    <p>Biển số xe: <%=data[i].vehicle.license%></p>
+                    <p>Thời gian đặt: <%=data[i].timeBook%></p>
+                    <p>Trạng thái: <%=data[i].status%></p>
+                    <%if (data[i].status == "Cancelled") {%>
+                    <p>Lý do hủy: <%=data[i].note%></p>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+
+    <% } %>
+</div>

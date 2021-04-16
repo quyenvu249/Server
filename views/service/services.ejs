@@ -1,0 +1,112 @@
+<div class="container">
+    <h4><%= title %></h4>
+    <table class="table">
+        <thead>
+        <th>Tên dịch vụ</th>
+        <th>Trạng thái</th>
+        <th><button type="button" data-toggle="modal" data-target="#add" class="btn btn-sm btn-info">Thêm dịch vụ</button></th>
+        </thead>
+        <% for (let i = 0; i < data.length; i++){ %>
+            <tbody>
+            <tr>
+                <td><%= data[i].name %></td>
+                <td><%if (data[i].status) {%> Đang sử dụng <%} else {%> Không sử dụng<%}%></td>
+                <td>
+                    &nbsp;
+                    <button type="button" data-toggle="modal" data-target="#d<%= data[i]._id %>"
+                            class="btn btn-danger btn-sm">Xóa
+                    </button>
+                    &nbsp;
+                    <button type="button" data-toggle="modal" data-target="#u<%= data[i]._id %>"
+                            class="btn btn-sm btn-info">Chỉnh sửa
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <!--                modal delete-->
+
+            <div class="modal fade" id="d<%= data[i]._id %>" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Xác nhận</h5>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa dịch vụ <%= data[i].name %> ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <form action="/services/action?perform=delete&id=<%= data[i]._id %>" method="post">
+                            <button class="btn btn-danger" type="submit">Đồng ý</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--                modal update-->
+
+
+            <div class="modal fade" id="u<%= data[i]._id %>" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Chỉnh sửa thông tin</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/services/action?perform=update&id=<%= data[i]._id %>" method="POST" class="modal-content">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Tên dịch vụ</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Nhập tên dịch vụ..." name="name"
+                                           value="<%= data[i].name %>">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Trạng thái</span>
+                                    </div>
+                                    <select type="text" class="form-control"  name="status">
+                                        <option value=true <%if (data[i].status) {%> selected <%}%>> Đang sử dụng</option>
+                                        <option value=false <%if (!data[i].status) {%> selected <%}%>>Không sử dụng</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <button type="submit" class="btn btn-danger">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </table>
+
+</div>
+<div class="modal fade" id="add" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Thêm dịch vụ</h5>
+            </div>
+            <div class="modal-body">
+                <form action="/services/action?perform=add" method="POST" class="modal-content">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Tên dịch vụ</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Nhập tên dịch vụ..." name="name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-danger">Thêm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

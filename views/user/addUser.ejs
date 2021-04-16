@@ -1,0 +1,23 @@
+
+<form class="container" action="/users/save-add-user" method="post">
+    <h1><%=title%></h1>
+    <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="text" class="form-control "  placeholder="Nhập số điện thoại..." name="phoneNumber" required>
+    </div>
+
+    <div class="form-group">
+        <label>Họ và tên</label>
+        <input type="text" class="form-control"  placeholder="Nhập họ và tên..." name="fullName" required>
+    </div>
+    <div class="form-group">
+        <label>Đia chỉ</label>
+        <input type="text" class="form-control"  placeholder="Nhập họ và tên..." name="address" required>
+    </div>
+    <% if (err) {%>
+    <div class="alert alert-danger" role="alert">
+        <%=message%>
+    </div>
+    <%}%>
+    <button type="submit" class="btn btn-primary">Thêm nhân viên</button>
+</form>
