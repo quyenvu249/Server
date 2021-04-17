@@ -54,11 +54,7 @@ let addNotify = async (title, user, schedule ) => {
     })
 }
 
-
-
 module.exports = {notify, addNotify};
-
-
 
 module.exports.login = async (req, res) => {
     let phoneNumber = req.body.phoneNumber
@@ -429,6 +425,14 @@ module.exports.changePass = async (req, res) => {
         res.json({success: false, message: err})
     }).catch((err) => {
         res.json({success: false, message: err})
+    })
+}
+
+module.exports.getNotifyUser = async (req, res) => {
+    await Notify.find({user:req.user.id}).then((notify) => {
+        res.json({success:false, message: `OK`, notify})
+    }).catch((err) => {
+        res.json({success:false, message: `Lỗi ${err}`})
     })
 }
 

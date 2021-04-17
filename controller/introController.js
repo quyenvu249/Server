@@ -60,8 +60,10 @@ module.exports.postUpdateIntro = async (req, res) => {
         let image = intro.image;
         if (req.files) {
             image = req.files.image;
-            if (intro.image != ""){
+            try {
                 fs.unlinkSync(`./uploads/${intro.image}`);
+            } catch (e) {
+                console.log(e)
             }
             let filename = "intro/" + uniqid() + "-" + image.name;
             image.mv(`./uploads/${filename}`);
@@ -88,8 +90,10 @@ module.exports.postUpdateIntro = async (req, res) => {
 module.exports.deleteIntro = async (req, res) => {
     let id = req.params.id;
     await New.findByIdAndDelete({_id: id}).then((intro) => {
-        if (intro.image != ""){
+        try {
             fs.unlinkSync(`./uploads/${intro.image}`);
+        } catch (e) {
+            console.log(e)
         }
         res.redirect('/introduces');
     }, (err) => {

@@ -13,6 +13,7 @@ router.get('/services', apiController.getAllService);
 
 router.get('/user',middle.checkLogin, apiController.getInfoUser);
 router.get('/user/schedule',middle.checkLogin, apiController.getScheduleUser);
+router.get('/user/notify',middle.checkLogin, apiController.getNotifyUser);
 router.post('/user/update',middle.checkLogin, apiController.updateInfoUser);
 router.post('/user/updatePass',middle.checkLogin, apiController.changePass);
 

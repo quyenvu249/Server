@@ -130,8 +130,12 @@ module.exports.postAddUser = async (req, res) => {
 module.exports.deleteUser = async (req, res) => {
     let id = req.params.id;
     await User.findByIdAndDelete({_id: id}).then((user) => {
-        if (user.avatar != 'images/img.png') {
-            fs.unlinkSync(`./uploads/${user.avatar}`);
+        try {
+            if (user.avatar != 'images/img.png') {
+                fs.unlinkSync(`./uploads/${user.avatar}`);
+            }
+        } catch (e) {
+            console.log(e)
         }
         res.redirect('/users');
     }, (err) => {
@@ -199,9 +203,14 @@ module.exports.postUpdateUser = async (req, res) => {
         }
         let avatar = user.avatar;
         if (req.files) {
-            if (user.avatar != 'images/img.png') {
-                fs.unlinkSync(`./uploads/${user.avatar}`);
+            try {
+                if (user.avatar != 'images/img.png') {
+                    fs.unlinkSync(`./uploads/${user.avatar}`);
+                }
+            } catch (e) {
+                console.log(e)
             }
+
             avatar = req.files.avatar;
             let filename = "user/" + uniqid() + "-" + avatar.name;
             avatar.mv(`./uploads/${filename}`);
