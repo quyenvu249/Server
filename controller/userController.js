@@ -229,7 +229,6 @@ module.exports.getSchedules = async (req, res) => {
     let status = req.query.status == undefined ? "" : req.query.status;
     await Schedule.find({status: new RegExp(status, 'i')}).populate('idUser').populate('vehicle').populate('services').then((data) => {
         res.render('schedule/schedules', {layout: 'temp/index', title: "Danh sách đặt lịch",err: false, data})
-        console.log(data)
     }, (err) => {
         res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
     }).catch((err) => {
@@ -276,15 +275,17 @@ module.exports.confirm = async (req, res) => {
                 timeConfirm,
                 idStaffConfirm: user._id
             }
-        }, {new: true}).then(() => {
-            apiController.notify('', 'Lịch của bạn đang được tiến hành', schedule.idUser.tokenDevice)
-            res.redirect('/schedules')
+        }, {new: true}).then((schedu) => {
+            apiController.notify('Thông báo', 'Lịch của bạn đang được tiến hành', schedule.idUser.tokenDevice)
+            apiController.addNotify(`Lịch của bạn đang được thực hiện`,schedu.idUser, schedu._id)
+            res.redirect('/schedules?status=Pending')
         }, (err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         }).then((err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         })
-    } else if (perform == "Cancel") {
+    }
+    else if (perform == "Cancel") {
         let user = await User.findById(req.cookies.id);
         if (!user) {
             res.render('error/404', {
@@ -318,16 +319,20 @@ module.exports.confirm = async (req, res) => {
         await Schedule.findOneAndUpdate({_id: schedule._id}, {
             $set: {
                 status: 'Cancelled',
+                idStaffConfirm: user._id,
+                timeConfirm: new Date(),
                 note
             }
-        }, {new: true}).then(() => {
-            res.redirect('/schedules')
+        }, {new: true}).then((schedu) => {
+            apiController.addNotify(`Lịch của bạn đã bị hủy`, schedu.idUser, schedu._id)
+            res.redirect('/schedules?status=Pending')
         }, (err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         }).then((err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         })
-    } else if (perform == "Complete") {
+    }
+    else if (perform == "Complete") {
         let user = await User.findById(req.cookies.id);
         if (!user) {
             res.render('error/404', {
@@ -361,8 +366,9 @@ module.exports.confirm = async (req, res) => {
             $set: {
                 status: 'Completed'
             }
-        }, {new: true}).then(() => {
-            res.redirect('/schedules')
+        }, {new: true}).then((schedu) => {
+            apiController.addNotify(`Dịch vụ của bạn đã hoàn thành`, schedu.idUser, schedu._id)
+            res.redirect('/schedules?status=Confirmed')
         }, (err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         }).then((err) => {

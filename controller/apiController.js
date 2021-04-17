@@ -10,8 +10,8 @@ let New = require('../model/New')
 let Schedule = require('../model/Schedule')
 let Vehicle = require('../model/Vehicle')
 let Service = require('../model/Service')
+let Notify = require('../model/Notify')
 let serviceAccount = require("../datn-iwash-firebase-adminsdk-a30tb-8e2250e463.json")
-// let token = "eHVvIIOvR8awgrcq42gm82:APA91bGbc17ZooynHKaYb0s2cOFpX7gj1kJfyewT00RX_wYw5AjMaaoUNflV-3J0xr6TaTC30IGQvfUtuFmqEc03EcHGs_w5dOfOKtx2aSDgSa4fnARuhJ5aWRLLt0158tILGGaQ2ubO"
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -20,7 +20,6 @@ admin.initializeApp({
 let cronJob = (id, hour, min, day, month) => {
     let minDel = parseInt(min) + 1
     let job = new cron.CronJob(`* ${minDel} ${hour} ${day} ${month} *`, async () => {
-
         let book = await Schedule.findOne({idUser: id, status: "Pending"})
         if (book) {
             await Schedule.findOneAndDelete({_id: book._id}).then(() => {
@@ -45,7 +44,22 @@ let notify = (title, message, token) => {
         console.log("Catch: " + err)
     })
 }
-module.exports = {notify};
+
+let addNotify = async (title, user, schedule ) => {
+    let add = new Notify({title, user, schedule, time: new Date()});
+    add.save().then(()=> {
+        console.log(`Thêm thành công`)
+    }).catch((err)=> {
+        console.log(`Lỗi: ${err}`)
+    })
+}
+
+
+
+module.exports = {notify, addNotify};
+
+
+
 module.exports.login = async (req, res) => {
     let phoneNumber = req.body.phoneNumber
     let user = await User.findOne({phoneNumber})
@@ -247,6 +261,7 @@ module.exports.schedule = async (req, res) => {
         if (resolve) {
             cronJob(idUser, hour, min, day, month)
             notify('Thành công','Lịch của bạn đã được đặt. Vui lòng mang xe tới đúng giờ', req.user.tokenDevice)
+            addNotify(`Lịch của bạn đã được đặt thành công`,idUser,resolve._id);
             res.json({success: true, message: `Đặt lịch thành công`})
         } else if (reject) {
             res.json({success: false, message: `Đặt lịch thất bại`})
@@ -270,7 +285,10 @@ module.exports.cancelSchedule = async (req, res) => {
         res.json({success: false, message: 'Bạn chỉ được hủy lịch của mình'})
         return
     }
-    await Schedule.findOneAndUpdate({_id: schedule._id}, {$set: {status: 'Cancelled', note}}, {new: true}).then((schedule) => {
+    await Schedule.findOneAndUpdate({_id: schedule._id}, {$set:
+            {status: 'Cancelled', note, idStaffConfirm: user._id, timeConfirm:new Date()}
+    }, {new: true}).then((schedule) => {
+        addNotify(`Lịch của bạn đã bị hủy`, schedule.idUser, schedule._id)
         res.json({success: true, message: `Hủy lịch thành công`})
     }, (err) => {
         res.json({success: false, message: err})
@@ -305,7 +323,8 @@ module.exports.confirmSchedule = async (req, res) => {
             timeConfirm,
             idStaffConfirm: req.user.id
         }
-    }, {new: true}).then(() => {
+    }, {new: true}).then((schedu) => {
+        addNotify(`Lịch của bạn đang được thực hiện`,schedu.idUser, schedu._id)
         res.json({success: true, message: `Đã xác nhận thành công`})
     }, (err) => {
         res.json({success: false, message: err})
@@ -337,7 +356,8 @@ module.exports.completeSchedule = async (req, res) => {
         $set: {
             status: 'Completed'
         }
-    }, {new: true}).then(() => {
+    }, {new: true}).then((schedu) => {
+        addNotify(`Dịch vụ của bạn đã hoàn thành`, user._id, schedu._id)
         res.json({success: true, message: `Đã hoàn thành`})
     }, (err) => {
         res.json({success: false, message: err})
