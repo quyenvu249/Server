@@ -9,6 +9,9 @@ let apiController = require('../controller/apiController')
 
 module.exports.postLogin = async (req, res) => {
     let phoneNumber = req.body.phoneNumber;
+    if (phoneNumber.charAt(0) == 0) {
+        phoneNumber = `+84${phoneNumber.substring(1,phoneNumber.length)}`
+    }
     await User.findOne({phoneNumber}).then((user) => {
         if (!user) {
             res.render('login', {
@@ -114,6 +117,9 @@ module.exports.postAddUser = async (req, res) => {
         });
         return;
     }
+    if (phoneNumber.charAt(0) == 0) {
+        phoneNumber = `+84${phoneNumber.substring(1,phoneNumber.length)}`
+    }
     let passWord = md5("123456");
     let fullName = req.body.fullName;
     let address = req.body.address;
@@ -188,6 +194,9 @@ module.exports.postUpdateUser = async (req, res) => {
     let id = req.params.id;
     await User.findById(id).then(async (user) => {
         let {phoneNumber, fullName, address, role} = req.body;
+        if (phoneNumber.charAt(0) == 0) {
+            phoneNumber = `+84${phoneNumber.substring(1,phoneNumber.length)}`
+        }
         if (phoneNumber != user.phoneNumber) {
             let checkPhone = await User.findOne({phoneNumber});
             if (checkPhone) {
