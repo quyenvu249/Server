@@ -198,7 +198,7 @@ module.exports.getAllSchedule = async (req, res) => {
         res.json({success: false, message: 'Bạn không có quyền xem'})
         return
     }
-    await Schedule.find({}).populate('idUser').populate('vehicle').then((schedules) => {
+    await Schedule.find({}).populate('idUser').populate('vehicle').populate('services').then((schedules) => {
         res.json({success: true, message: `OK`, schedules})
     }, (err) => {
         res.json({success: false, message: err})
