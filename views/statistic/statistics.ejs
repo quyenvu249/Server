@@ -1,0 +1,54 @@
+<div class="container-fluid">
+    <section>
+        <div class="row">
+            <div class="col-12 mt-3 mb-1">
+                <h5 class="text-uppercase">Thống kê qua app IWash</h5>
+                <p>Statistics on minimal cards.</p>
+            </div>
+        </div>
+        <form action="/statistics" method="get" class="row">
+            <label for="birthday" class="mr-1 mt-1">Từ ngày</label>
+            <input type="date" class="form-control col-sm-2"  name="timeStart" required>
+            <label for="birthday" class="ml-5 mr-1 mt-1" >Đến ngày</label>
+            <input type="date" class="form-control col-sm-2"  name="timeEnd" required>
+            <button type="submit" class="btn btn-info ml-5">Lọc</button>
+        </form>
+        <div class="row mt-4">
+            <div class="col-xl-3 col-sm-6 col-12 mb-4 ">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between px-md-1">
+                            <div>
+                                <h3 class="text-danger"><%=countMoto%></h3>
+                                <p class="mb-0">Số xe máy đã rửa</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-rocket text-danger fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between px-md-1">
+                            <div>
+                                <h3 class="text-success"><%=countCar%></h3>
+                                <p class="mb-0">Số ô tô đã rửa</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="far fa-user text-success fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<style>
+    body {
+        background-color: #f5f7fa;
+    }
+</style>

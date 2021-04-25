@@ -1,38 +1,43 @@
 let mongosee = require('mongoose');
 let scheduleSchema = new mongosee.Schema({
-    idUser:{
-        type:String,
-        required:true,
-        ref:'User'
+    idUser: {
+        type: String,
+        required: true,
+        ref: 'User'
     },
     timeBook: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     services: [{
-        type:String,
-        ref:'Service'
+        type: String,
+        ref: 'Service'
     }]
     ,
     status: {
-        type:String,
-        required:true,
-        default:"Pending"
+        type: String,
+        required: true,
+        default: "Pending"
+    },
+    vehicleStatus: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     vehicle: {
         type: String,
-        required:true,
+        required: true,
         ref: 'Vehicle'
     },
     idStaffConfirm: {
         type: String,
         ref: 'User',
-        default:''
+        default: ''
     },
     timeConfirm: {
         type: Date,
-        default:''
+        default: ''
     },
     note: String
 })
-module.exports = mongosee.model('Book', scheduleSchema,'book');
+module.exports = mongosee.model('Book', scheduleSchema, 'book');

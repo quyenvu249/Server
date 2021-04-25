@@ -11,6 +11,7 @@ let Schedule = require('../model/Schedule')
 let Vehicle = require('../model/Vehicle')
 let Service = require('../model/Service')
 let Notify = require('../model/Notify')
+let Statistic = require('../model/Statistic')
 let serviceAccount = require("../datn-iwash-firebase-adminsdk-a30tb-8e2250e463.json")
 
 admin.initializeApp({
@@ -18,7 +19,7 @@ admin.initializeApp({
 })
 
 let cronJob = (id, hour, min, day, month) => {
-    let minDel = parseInt(min) + 1
+    let minDel = parseInt(min) + 15
     let job = new cron.CronJob(`* ${minDel} ${hour} ${day} ${month} *`, async () => {
         let book = await Schedule.findOne({idUser: id, status: "Pending"})
         if (book) {
@@ -26,7 +27,7 @@ let cronJob = (id, hour, min, day, month) => {
                 console.log(`Đã hủy đơn ${book._id}`)
             })
         }
-        job.stop()
+        job.destroy()
     }, null, true, 'Asia/Ho_Chi_Minh')
 }
 
@@ -45,11 +46,11 @@ let notify = (title, message, token) => {
     })
 }
 
-let addNotify = async (title, user, schedule ) => {
+let addNotify = async (title, user, schedule) => {
     let add = new Notify({title, user, schedule, time: new Date()});
-    add.save().then(()=> {
+    add.save().then(() => {
         console.log(`Thêm thành công`)
-    }).catch((err)=> {
+    }).catch((err) => {
         console.log(`Lỗi: ${err}`)
     })
 }
@@ -179,8 +180,11 @@ module.exports.getScheduleUser = async (req, res) => {
         res.json({success: false, message: 'Không nhận dạng được người dùng. Vui lòng đăng nhập lại!'})
         return
     }
-    await Schedule.find({idUser: req.user.id}).populate('services').populate({path: 'vehicle', populate: {path:'idUser'}}).then((schedules) => {
-        res.json({success: true, message: `OK`, schedules})
+    await Schedule.find({idUser: req.user.id}).populate('services').populate({
+        path: 'vehicle',
+        populate: {path: 'idUser'}
+    }).populate('idUser').then((schedules) => {
+        res.json({success: true, message: `OK`, schedules: schedules.reverse()})
     }, (err) => {
         res.json({success: false, message: err})
     }).catch((err) => {
@@ -198,14 +202,40 @@ module.exports.getAllSchedule = async (req, res) => {
         res.json({success: false, message: 'Bạn không có quyền xem'})
         return
     }
-    await Schedule.find({}).populate('idUser').populate('vehicle').populate('services').then((schedules) => {
-        res.json({success: true, message: `OK`, schedules})
+    await Schedule.find({}).populate('services').populate({
+        path: 'vehicle',
+        populate: {path: 'idUser'}
+    }).populate('idUser').then((schedules) => {
+        res.json({success: true, message: `OK`, schedules: schedules.reverse()})
     }, (err) => {
         res.json({success: false, message: err})
     }).catch((err) => {
         res.json({success: false, message: err})
     })
 }
+
+// module.exports.getStatistics = async (req, res) => {
+//     let motoCount = 0, carCount = 0;
+//     let user = await User.findById(req.user.id)
+//     if (!user) {
+//         res.json({success: false, message: 'Không nhận dạng được người dùng. Vui lòng đăng nhập lại!'})
+//         return
+//     }
+//     if (user.role == 'Customer') {
+//         res.json({success: false, message: 'Bạn không có quyền xem'})
+//         return
+//     }
+//     await Schedule.find({}).populate('services').populate({
+//         path: 'vehicle',
+//         populate: {path: 'idUser'}
+//     }).populate('idUser').then((schedules) => {
+//         res.json({success: true, message: `OK`, schedules: schedules.reverse()})
+//     }, (err) => {
+//         res.json({success: false, message: err})
+//     }).catch((err) => {
+//         res.json({success: false, message: err})
+//     })
+// }
 
 module.exports.getAllVehicleUser = async (req, res) => {
     await Vehicle.find({idUser: req.user.id}).populate('idUser').then((vehicles) => {
@@ -230,9 +260,10 @@ module.exports.getAllService = async (req, res) => {
 module.exports.schedule = async (req, res) => {
     console.log(req.user.tokenDevice)
     let idUser = req.user.id
-    let schedule = await Schedule.findOne({idUser, status:"Pending"})
+    let schedule = await Schedule.findOne({idUser, status: "Pending"})
     if (schedule) {
-        res.json({success: false, message: 'Bạn đang spam đặt lịch'})
+        notify('Thất bại', 'Bạn phải chờ lịch của bạn hoàn thành để đặt tiếp', req.user.tokenDevice)
+        res.json({success: false, message: 'Bạn phải chờ lịch của bạn hoàn thành để đặt tiếp'})
         return
     }
     let staff = await User.find({role: 'Staff'})
@@ -243,7 +274,7 @@ module.exports.schedule = async (req, res) => {
     let timeBook = req.body.timeBook
     let vehicle = req.body.vehicle
     let services = req.body.service
-    let slSchedule = await Schedule.find({timeBook})
+    let slSchedule = await Schedule.find({timeBook, status: "Pending"})
     if (slSchedule.length >= staff.length) {
         res.json({success: false, message: 'Khung giờ này đã đầy'})
         return
@@ -256,8 +287,8 @@ module.exports.schedule = async (req, res) => {
     add.save().then((resolve, reject) => {
         if (resolve) {
             cronJob(idUser, hour, min, day, month)
-            notify('Thành công','Lịch của bạn đã được đặt. Vui lòng mang xe tới đúng giờ', req.user.tokenDevice)
-            addNotify(`Lịch của bạn đã được đặt thành công`,idUser,resolve._id);
+            notify('Thành công', 'Lịch của bạn đã được đặt. Vui lòng mang xe tới đúng giờ', req.user.tokenDevice)
+            addNotify(`Lịch của bạn đã được đặt thành công`, idUser, resolve._id);
             res.json({success: true, message: `Đặt lịch thành công`})
         } else if (reject) {
             res.json({success: false, message: `Đặt lịch thất bại`})
@@ -281,9 +312,11 @@ module.exports.cancelSchedule = async (req, res) => {
         res.json({success: false, message: 'Bạn chỉ được hủy lịch của mình'})
         return
     }
-    await Schedule.findOneAndUpdate({_id: schedule._id}, {$set:
-            {status: 'Cancelled', note, idStaffConfirm: user._id, timeConfirm:new Date()}
+    await Schedule.findOneAndUpdate({_id: schedule._id}, {
+        $set:
+            {status: 'Cancelled', note, idStaffConfirm: user._id, timeConfirm: new Date()}
     }, {new: true}).then((schedule) => {
+        notify('Xin lỗi', 'Lịch của bạn đã bị hủy', req.user.tokenDevice)
         addNotify(`Lịch của bạn đã bị hủy`, schedule.idUser, schedule._id)
         res.json({success: true, message: `Hủy lịch thành công`})
     }, (err) => {
@@ -297,10 +330,6 @@ module.exports.confirmSchedule = async (req, res) => {
     let user = await User.findById(req.user.id)
     if (!user) {
         res.json({success: false, message: 'Không nhận dạng được người dùng. Vui lòng đăng nhập lại!'})
-        return
-    }
-    if (user.role = 'Customer') {
-        res.json({success: false, message: 'Bạn không có quyền'})
         return
     }
     let schedule = await Schedule.findById(req.params.id)
@@ -320,7 +349,7 @@ module.exports.confirmSchedule = async (req, res) => {
             idStaffConfirm: req.user.id
         }
     }, {new: true}).then((schedu) => {
-        addNotify(`Lịch của bạn đang được thực hiện`,schedu.idUser, schedu._id)
+        addNotify(`Lịch của bạn đang được thực hiện`, schedu.idUser, schedu._id)
         res.json({success: true, message: `Đã xác nhận thành công`})
     }, (err) => {
         res.json({success: false, message: err})
@@ -340,6 +369,10 @@ module.exports.completeSchedule = async (req, res) => {
         res.json({success: false, message: 'Không tìm thấy lịch đặt. Vui lòng thử lại!'})
         return
     }
+    if (schedule.vehicleStatus === false) {
+        res.json({success: false, message: 'Người dùng chưa lấy xe, bạn không thể xác nhận lịch đã hoàn thành!'})
+        return
+    }
     if (req.user.id != schedule.idStaffConfirm) {
         res.json({success: false, message: 'Bạn không phải người xác nhận'})
         return
@@ -353,8 +386,38 @@ module.exports.completeSchedule = async (req, res) => {
             status: 'Completed'
         }
     }, {new: true}).then((schedu) => {
+        notify('Xong rồi!', 'Dịch vụ của bạn đã hoàn thành', req.user.tokenDevice)
         addNotify(`Dịch vụ của bạn đã hoàn thành`, user._id, schedu._id)
         res.json({success: true, message: `Đã hoàn thành`})
+    }, (err) => {
+        res.json({success: false, message: err})
+    }).catch((err) => {
+        res.json({success: false, message: err})
+    })
+}
+
+module.exports.confirmVehicleStatus = async (req, res) => {
+    let schedule = await Schedule.findById(req.params.id)
+    if (!schedule) {
+        res.json({success: false, message: 'Không tìm thấy lịch đặt. Vui lòng thử lại!'})
+        return
+    }
+    if (req.user.id != schedule.idUser) {
+        res.json({success: false, message: 'Bạn không phải người đặt lịch'})
+        return
+    }
+    if (schedule.status != 'Confirmed') {
+        res.json({success: false, message: 'Lịch này chưa được xác nhận hoặc đã hoàn thành'})
+        return
+    }
+    await Schedule.findOneAndUpdate({_id: schedule._id}, {
+        $set: {
+            vehicleStatus: true
+        }
+    }, {new: true}).then((schedu) => {
+         notify('Xong rồi!', 'Bạn xác nhận đã lấy xe thành công', req.user.tokenDevice)
+        addNotify(`Bạn đã lấy xe thành công`, schedu.idUser, schedu._id)
+        res.json({success: true, message: 'Đã lấy xe'})
     }, (err) => {
         res.json({success: false, message: err})
     }).catch((err) => {
@@ -392,7 +455,7 @@ module.exports.updateInfoUser = async (req, res) => {
     }
     await User.findOneAndUpdate({_id: req.user.id}, {
         $set: {
-           fullName, address, avatar
+            fullName, address, avatar
         }
     }, {new: true}).then(() => {
         res.json({success: true, message: `Thay đổi thông tin thành công`})
@@ -429,11 +492,26 @@ module.exports.changePass = async (req, res) => {
 }
 
 module.exports.getNotifyUser = async (req, res) => {
-    await Notify.find({user:req.user.id}).then((notify) => {
-        res.json({success:false, message: `OK`, notify})
+    await Notify.find({user: req.user.id}).then((notify) => {
+        res.json({success: true, message: `OK`, notify: notify.reverse()})
     }).catch((err) => {
-        res.json({success:false, message: `Lỗi ${err}`})
+        res.json({success: false, message: `Lỗi ${err}`})
     })
 }
 
-
+module.exports.getNumberOfSchedule = async (req, res) => {
+    // (-_-)
+    let staff = await User.find({role: 'Staff'})
+    if (!staff) {
+        res.json({success: false, message: 'Không tìm thấy nhân viên'})
+        return
+    }
+    await Schedule.find({status: "Pending"}).populate('idUser').populate({
+        path: 'vehicle',
+        populate: {path: 'idUser'}
+    }).populate('services').then((schedules) => {
+        res.json({success: true, message: `OK`, schedules, users: staff})
+    }).catch((err) => {
+        res.json({success: false, message: `Lỗi ${err}`})
+    })
+}

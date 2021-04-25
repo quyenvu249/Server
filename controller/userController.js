@@ -10,7 +10,7 @@ let apiController = require('../controller/apiController')
 module.exports.postLogin = async (req, res) => {
     let phoneNumber = req.body.phoneNumber;
     if (phoneNumber.charAt(0) == 0) {
-        phoneNumber = `+84${phoneNumber.substring(1,phoneNumber.length)}`
+        phoneNumber = `+84${phoneNumber.substring(1, phoneNumber.length)}`
     }
     await User.findOne({phoneNumber}).then((user) => {
         if (!user) {
@@ -118,7 +118,7 @@ module.exports.postAddUser = async (req, res) => {
         return;
     }
     if (phoneNumber.charAt(0) == 0) {
-        phoneNumber = `+84${phoneNumber.substring(1,phoneNumber.length)}`
+        phoneNumber = `+84${phoneNumber.substring(1, phoneNumber.length)}`
     }
     let passWord = md5("123456");
     let fullName = req.body.fullName;
@@ -195,7 +195,7 @@ module.exports.postUpdateUser = async (req, res) => {
     await User.findById(id).then(async (user) => {
         let {phoneNumber, fullName, address, role} = req.body;
         if (phoneNumber.charAt(0) == 0) {
-            phoneNumber = `+84${phoneNumber.substring(1,phoneNumber.length)}`
+            phoneNumber = `+84${phoneNumber.substring(1, phoneNumber.length)}`
         }
         if (phoneNumber != user.phoneNumber) {
             let checkPhone = await User.findOne({phoneNumber});
@@ -246,14 +246,13 @@ module.exports.postUpdateUser = async (req, res) => {
 module.exports.getSchedules = async (req, res) => {
     let status = req.query.status == undefined ? "" : req.query.status;
     await Schedule.find({status: new RegExp(status, 'i')}).populate('idUser').populate('vehicle').populate('services').then((data) => {
-        res.render('schedule/schedules', {layout: 'temp/index', title: "Danh sách đặt lịch",err: false, data})
+        res.render('schedule/schedules', {layout: 'temp/index', title: "Danh sách đặt lịch", err: false, data})
     }, (err) => {
         res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
     }).catch((err) => {
         res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
     })
 }
-
 module.exports.confirm = async (req, res) => {
     let perform = req.query.perform;
     if (perform == "Confirm") {
@@ -295,15 +294,14 @@ module.exports.confirm = async (req, res) => {
             }
         }, {new: true}).then((schedu) => {
             apiController.notify('Thông báo', 'Lịch của bạn đang được tiến hành', schedule.idUser.tokenDevice)
-            apiController.addNotify(`Lịch của bạn đang được thực hiện`,schedu.idUser, schedu._id)
+            apiController.addNotify(`Lịch của bạn đang được thực hiện`, schedu.idUser, schedu._id)
             res.redirect('/schedules?status=Pending')
         }, (err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         }).then((err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         })
-    }
-    else if (perform == "Cancel") {
+    } else if (perform == "Cancel") {
         let user = await User.findById(req.cookies.id);
         if (!user) {
             res.render('error/404', {
@@ -349,8 +347,7 @@ module.exports.confirm = async (req, res) => {
         }).then((err) => {
             res.render('error/404', {layout: 'temp/index', title: "Có lỗi xảy ra !", err: true, message: err})
         })
-    }
-    else if (perform == "Complete") {
+    } else if (perform == "Complete") {
         let user = await User.findById(req.cookies.id);
         if (!user) {
             res.render('error/404', {

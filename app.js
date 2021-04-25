@@ -12,6 +12,7 @@ var introsRouter = require('./routes/introRoutes');
 var loginRouter = require('./routes/loginRoutes');
 var scheduleRouter = require('./routes/scheduleRoutes');
 var serviceRouter = require('./routes/serviceRoutes');
+var statisticRouter = require('./routes/statisticRoutes');
 let db = require('./database');
 
 var app = express();
@@ -37,6 +38,7 @@ app.use('/users', usersRouter);
 app.use('/introduces', introsRouter);
 app.use('/schedules', scheduleRouter);
 app.use('/services', serviceRouter);
+app.use('/statistics', statisticRouter);
 
 app.get('/docs', (req, res) => {
   res.render('docs', {layout:'temp/default', title:'Documentation'})
