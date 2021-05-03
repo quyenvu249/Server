@@ -441,8 +441,8 @@ module.exports.updateInfoUser = async (req, res) => {
         res.json({success: false, message: 'Không nhận dạng được người dùng. Vui lòng đăng nhập lại!'})
         return
     }
-    let fullName = req.body.fullName.substring(1, req.body.fullName.substring.length - 1)
-    let address = req.body.address.substring(1, req.body.address.substring.length - 1)
+    let fullName = req.body.fullName.substring(1, req.body.fullName.length - 1)
+    let address = req.body.address.substring(1, req.body.address.length - 1)
     let avatar = user.avatar
     if (req.files) {
         try {
