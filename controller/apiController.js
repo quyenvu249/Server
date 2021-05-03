@@ -415,7 +415,7 @@ module.exports.confirmVehicleStatus = async (req, res) => {
             vehicleStatus: true
         }
     }, {new: true}).then((schedu) => {
-         notify('Xong rồi!', 'Bạn xác nhận đã lấy xe thành công', req.user.tokenDevice)
+        notify('Xong rồi!', 'Bạn xác nhận đã lấy xe thành công', req.user.tokenDevice)
         addNotify(`Bạn đã lấy xe thành công`, schedu.idUser, schedu._id)
         res.json({success: true, message: 'Đã lấy xe'})
     }, (err) => {
@@ -441,11 +441,16 @@ module.exports.updateInfoUser = async (req, res) => {
         res.json({success: false, message: 'Không nhận dạng được người dùng. Vui lòng đăng nhập lại!'})
         return
     }
-    let {fullName, address} = req.body
+    let fullName = req.body.fullName.substring(1, req.body.fullName.substring.length - 1)
+    let address = req.body.address.substring(1, req.body.address.substring.length - 1)
     let avatar = user.avatar
     if (req.files) {
-        if (user.avatar != 'images/img.png') {
-            fs.unlinkSync(`./uploads/${user.avatar}`)
+        try {
+            if (user.avatar != 'images/img.png') {
+                fs.unlinkSync(`./uploads/${user.avatar}`)
+            }
+        } catch (e) {
+            console.log(e)
         }
         avatar = req.files.avatar
         let filename = "user/" + uniqid() + "-" + avatar.name
