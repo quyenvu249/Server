@@ -462,8 +462,8 @@ module.exports.updateInfoUser = async (req, res) => {
         $set: {
             fullName, address, avatar
         }
-    }, {new: true}).then(() => {
-        res.json({success: true, message: `Thay đổi thông tin thành công`})
+    }, {new: true}).then((user) => {
+        res.json({success: true, message: `Thay đổi thông tin thành công`, user})
     }, (err) => {
         res.json({success: false, message: err})
     }).catch((err) => {
