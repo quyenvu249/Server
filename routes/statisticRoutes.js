@@ -6,6 +6,4 @@ let statisticController = require('../controller/statisticController');
 
 router.get('/',middle.checkAdminLogin, statisticController.getStatistic)
 
-// router.post('/action',middle.checkAdminLogin, statisticController.action)
-
 module.exports = router

@@ -30,6 +30,4 @@ router.post('/schedule/:id/confirm', middle.checkLogin, apiController.confirmSch
 router.post('/schedule/:id/complete', middle.checkLogin, apiController.completeSchedule);
 router.post('/schedule/:id/confirmVehicle', middle.checkLogin, apiController.confirmVehicleStatus);
 
-// router.get('/statistics', apiController.getS);
-
 module.exports = router;

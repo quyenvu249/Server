@@ -65,6 +65,23 @@
                                 class="c-sidebar-nav-icon"></span>Những tin không sử dụng</a></li>
             </ul>
         </li>
+
+<!--        Dịch vụ-->
+
+        <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
+                    class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="/services">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-newspaper"></use>
+                </svg>
+                Dịch vụ</a>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/services"><span
+                                class="c-sidebar-nav-icon"></span>Dịch vụ</a></li>
+            </ul>
+        </li>
+
+        <!--        Lịch đặt-->
+
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
                     class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                 <svg class="c-sidebar-nav-icon">
@@ -83,12 +100,15 @@
                                 class="c-sidebar-nav-icon"></span>Lịch đã hủy</a></li>
             </ul>
         </li>
+
+        <!--        Thống kê-->
+
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
                     class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="/statistics">
                 <svg class="c-sidebar-nav-icon">
                     <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-newspaper"></use>
                 </svg>
-               Thống kê</a>
+                Thống kê</a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="/statistics"><span
                                 class="c-sidebar-nav-icon"></span>Thống kê</a></li>
@@ -122,13 +142,14 @@
         <ul class="c-header-nav d-md-down-none">
             <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/users">Người dùng</a></li>
             <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/introduces">Bảng tin</a></li>
+            <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/services">Dịch vụ</a></li>
             <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/schedules">Lịch đặt</a></li>
             <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="/statistics">Thống kê</a></li>
         </ul>
         <ul class="c-header-nav ml-auto mr-4">
             <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#"
                                                       role="button" aria-haspopup="true" aria-expanded="false">
-                    <div class="c-avatar"><img class="c-avatar-img" src="/<%=img%>" alt="Admin"></div>
+                    <div class="c-avatar"><img class="c-avatar-img" src="/<%= img %>" alt="Admin"></div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right pt-0">
                     <div class="dropdown-header bg-light py-2"><strong>Tài khoản</strong></div>
